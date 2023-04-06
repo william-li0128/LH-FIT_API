@@ -44,6 +44,26 @@ async function createUser(req, res) {
 
 }
 
+async function comparePasswords(req, res) {
+  const { email, password } = req.body;
+
+  const user = await prisma.user.findUnique({
+    where: {
+      email,
+    },
+  });
+
+  if (!user) {
+    return res.status(401).json({ message: 'Invalid email' });
+  }
+
+  const isPasswordValid = await bcrypt.compare(password, user.password);
+
+  if (!isPasswordValid) {
+    return res.status(401).json({ message: 'Invalid password' });
+  }
+}
+
 async function updateUser(req, res) {
   const { id } = req.params;
   const { name, email, password } = req.body;
@@ -74,6 +94,7 @@ module.exports = {
   getUsers,
   findUserById,
   createUser,
+  comparePasswords,
   updateUser,
   deleteUser,
 };

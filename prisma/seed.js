@@ -4892,21 +4892,21 @@ await prisma.User.create({
       data: {
         email: "sample1@sample.com",
 name: "William Li",
-password: "1234"
+password: "$2b$10$X8AEv25c3hyQZ1.c35nNPe93.UaZLnRiyu62BwJTSY70HZGz1OVSm"
       },
     })
 await prisma.User.create({
       data: {
         email: "sample2@sample.com",
 name: "Ngozi Nwabiani",
-password: "2341"
+password: "$2b$10$JKpGrN3a9mTp/moB5XU0pec9nJfbCsUayw2GORn95BQYycjFxwJ4e"
       },
     })
 await prisma.User.create({
       data: {
         email: "sample3@sample.com",
 name: "Anders Flotten",
-password: "3412"
+password: "$2b$10$8NeoQn4Ns0f/FwTz5MJ2reVYD.hhKWLYVt6DP8qCeLNnFnSFz4ndO"
       },
     })
   // Disconnect from the database

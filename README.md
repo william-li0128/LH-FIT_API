@@ -33,4 +33,4 @@ npx prisma studio
 
 ## Set up Prisma and connect PostgreSQL database
 
--  default api port: http://localhost:3000
+-  default api port: http://localhost:8080

@@ -1,10 +1,14 @@
 const express = require('express');
 const { PrismaClient } = require('@prisma/client');
 const router = require('./api_routes/index')
+const cors = require('cors')
 
 const prisma = new PrismaClient();
 const app = express();
 const PORT = 8080;
+
+// To prevent CORS errors
+app.use(cors())
 
 // Middleware to parse JSON request bodies
 app.use(express.json());

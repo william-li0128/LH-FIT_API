@@ -1,7 +1,6 @@
 const { PrismaClient } = require('@prisma/client')
 const fs = require('fs')
 
-const prisma = new PrismaClient()
 const exercisesJsonData = require('./exercises.json')
 const usersJsonData = require('./users.json')
 

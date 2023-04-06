@@ -1,6 +1,8 @@
 const { PrismaClient } = require('@prisma/client');
+const hash_password = require("../helpers/hash_password")
 
 const prisma = new PrismaClient();
+const hashPassword = hash_password.hashPassword;
 
 async function getUsers(req, res) {
   const users = await prisma.user.findMany();
@@ -18,15 +20,28 @@ async function findUserById(req, res) {
 }
 
 async function createUser(req, res) {
-  const { name, email, password } = req.body;
-  const user = await prisma.user.create({
-    data: {
-      name,
-      email,
-      password,
-    },
-  });
-  res.json(user);
+  try {
+    const { name, email, password } = req.body;
+
+    const hashedPassword = await hashPassword(password);
+  
+    const user = await prisma.user.create({
+      data: {
+        name,
+        email,
+        password: hashedPassword,
+      },
+    });
+  
+    res.json(user);
+  } catch (error) {
+    if (error.code === 'P2002') {
+      throw new Error('Email already exists');
+    } else {
+      throw error;
+    }
+  }
+
 }
 
 async function updateUser(req, res) {

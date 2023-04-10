@@ -33,4 +33,5 @@ npx prisma studio
 
 ## Set up Prisma and connect PostgreSQL database
 
+- use ```node app.js``` to start the API server
 -  default api port: http://localhost:8080/api

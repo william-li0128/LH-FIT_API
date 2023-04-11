@@ -3,13 +3,10 @@ const router = express.Router();
 const exerciseController = require('../controllers/exerciseController');
 
 // router to search exercise database by name and show a list.
-router.get('/', exerciseController.getExercisesByName);
+// router will also change reps and sets according to different training goals.
+router.get('/', exerciseController.getExercisesByQueries);
 
 // router to search exercise database by id and show 1 exercise.
 router.get('/:id', exerciseController.findExercisesByID);
-
-/* router to search exercise database by difficulty
-and muscel. Afterward show them a list of matched ones. */
-router.get('/queries', exerciseController.getExercisesByQueries);
 
 module.exports = router;

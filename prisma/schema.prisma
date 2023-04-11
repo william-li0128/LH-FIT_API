@@ -47,4 +47,5 @@ model Enrollment {
   exerciseId Int
   reps       Int
   sets       Int
+  weight     Int      @default(-1)
 }

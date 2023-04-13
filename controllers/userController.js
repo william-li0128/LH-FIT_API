@@ -1,5 +1,7 @@
+const bcrypt = require('bcrypt');
 const { PrismaClient } = require('@prisma/client');
 const hash_password = require("../helpers/hash_password")
+const {compareBPasswords} = require("../helpers/hash_password")
 
 const prisma = new PrismaClient();
 const hashPassword = hash_password.hashPassword;
@@ -45,23 +47,27 @@ async function createUser(req, res) {
 }
 
 async function comparePasswords(req, res) {
-  const { email, password } = req.body;
-
-  const user = await prisma.user.findUnique({
+  const { email, password } = req.query;
+  //changes the email to lowercase if it exist and if it doesn't exist it will be an empty string
+  const lowerCaseEmail = email?email.toLowerCase():'';
+  const user = await prisma.user.findFirst({
     where: {
-      email,
+      email:{
+        equals:lowerCaseEmail,
+      },
     },
   });
 
   if (!user) {
     return res.status(401).json({ message: 'Invalid email' });
+    
   }
 
-  const isPasswordValid = await bcrypt.compare(password, user.password);
-
+  const isPasswordValid = await compareBPasswords(password,user.password);
   if (!isPasswordValid) {
     return res.status(401).json({ message: 'Invalid password' });
   }
+  res.json(user.id);
 }
 
 async function updateUser(req, res) {

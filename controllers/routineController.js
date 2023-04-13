@@ -7,4 +7,22 @@ async function getRoutines(req, res) {
   res.json(routines);
 }
 
-module.exports = { getRoutines }
+async function getRoutinesByEmail(req, res) {
+  const { email } = req.query; 
+  const routines = await prisma.routine.findMany({
+    include: {
+      user: true,
+    },
+    where: {
+      user: {
+        email: { 
+          contains: email?.toLowerCase(),
+          mode: 'insensitive',
+        },
+      }
+    },
+  });
+  res.json(routines)
+}
+
+module.exports = { getRoutines, getRoutinesByEmail }

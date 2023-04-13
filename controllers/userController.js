@@ -23,25 +23,21 @@ async function findUserById(req, res) {
 
 async function createUser(req, res) {
   try {
-    const { name, email, password } = req.body;
+    const { name, email, password } = req.query;
 
     const hashedPassword = await hashPassword(password);
   
     const user = await prisma.user.create({
       data: {
-        name,
-        email,
+        name: name,
+        email: email,
         password: hashedPassword,
       },
     });
   
-    res.json(user);
+    res.json(user.id);
   } catch (error) {
-    if (error.code === 'P2002') {
-      throw new Error('Email already exists');
-    } else {
-      throw error;
-    }
+    return res.status(401).json({ message: 'User Credentials are invalid try again!' });
   }
 
 }

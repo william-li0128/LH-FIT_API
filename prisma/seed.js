@@ -5146,6 +5146,49 @@ async function seed() {
     }
   })
 
+  await prisma.Routine.create({
+    data: {
+      name: "Legs, shoulders, and abs",
+      userId: 2
+    }
+  })
+
+  await prisma.Enrollment.create({
+    data: {
+      routineId: 6,
+      exerciseId: 39,
+      reps: 10,
+      sets: 3,
+    }
+  })
+
+  await prisma.Enrollment.create({
+    data: {
+      routineId: 6,
+      exerciseId: 48,
+      reps: 10,
+      sets: 3,
+    }
+  })
+
+  await prisma.Enrollment.create({
+    data: {
+      routineId: 6,
+      exerciseId: 66,
+      reps: 10,
+      sets: 3,
+    }
+  })
+
+  await prisma.Enrollment.create({
+    data: {
+      routineId: 6,
+      exerciseId: 38,
+      reps: 10,
+      sets: 3,
+    }
+  })
+
   // Disconnect from the database
   await prisma.$disconnect()
 

@@ -12,6 +12,7 @@ async function createEnrollments(req, res) {
   try {
 
     const body = req.body;
+    console.log(body);
 
     const exercise = await prisma.exercise.findUnique({
       where: {
@@ -51,6 +52,9 @@ async function getExcercisesByRountineID(req, res) {
         id: enrollment.exerciseId,
       },
     });
+    exercise.reps = enrollment.reps
+    exercise.sets = enrollment.sets
+    exercise.weight = enrollment.weight
     return { ...enrollment, exercise };
   });
   const enrollmentAuthorResults = await Promise.all(enrollmentExercisePromises);

@@ -11,7 +11,6 @@ async function getExercisesByQueries(req, res) {
       difficulty: difficulty,
     }
   });
-  console.log(exercises);
   res.json(exercises)
 }
 

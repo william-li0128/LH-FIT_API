@@ -7,6 +7,36 @@ async function getEnrollments(req, res) {
   res.json(enrollments);
 }
 
+async function createEnrollments(req, res) {
+
+  try {
+
+    const body = req.body;
+
+    const exercise = await prisma.exercise.findUnique({
+      where: {
+          name: body.name
+      },
+    });
+
+    let weight = body.weight ? body.weight : -1;
+    
+    const enrollment = await prisma.enrollment.create({
+      data: {
+        routineId: parseInt(body.routineID),
+        exerciseId: exercise.id,
+        reps: parseInt(body.reps),
+        sets: parseInt(body.sets),
+        weight: parseInt(weight),
+      },
+    });
+  
+    res.json(enrollment.id);
+  } catch (error) {
+    return res.status(401).json({ message: `enrollment setting failed` });
+  }
+}
+
 async function getExcercisesByRountineID(req, res) {
   const { id } = req.params; 
   const enrollments = await prisma.enrollment.findMany({
@@ -33,4 +63,4 @@ async function getExcercisesByRountineID(req, res) {
 
 
 
-module.exports = { getEnrollments, getExcercisesByRountineID }
+module.exports = { getEnrollments, createEnrollments, getExcercisesByRountineID }

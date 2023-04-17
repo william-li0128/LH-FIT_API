@@ -7,22 +7,38 @@ async function getRoutines(req, res) {
   res.json(routines);
 }
 
-async function getRoutinesByEmail(req, res) {
-  const { email } = req.query; 
+async function createRoutine(req, res) {
+
+  try {
+
+    const body = req.body;
+  
+    const routine = await prisma.routine.create({
+      data: {
+        name: body.name,
+        userId: parseInt(body.userId),
+      },
+    });
+  
+    res.json(routine.id);
+  } catch (error) {
+    return res.status(401).json({ message: `'rountine setting failed': ${req.data}` });
+  }
+}
+
+async function getRoutinesByID(req, res) {
+  const { id } = req.query; 
   const routines = await prisma.routine.findMany({
     include: {
       user: true,
     },
     where: {
       user: {
-        email: { 
-          contains: email?.toLowerCase(),
-          mode: 'insensitive',
-        },
+        id: parseInt(id),
       }
     },
   });
   res.json(routines)
 }
 
-module.exports = { getRoutines, getRoutinesByEmail }
+module.exports = { getRoutines, getRoutinesByID, createRoutine }

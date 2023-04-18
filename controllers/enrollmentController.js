@@ -42,7 +42,8 @@ async function getExcercisesByRountineID(req, res) {
   const { id } = req.params; 
   const enrollments = await prisma.enrollment.findMany({
     where: {
-        routineId: parseInt(id)
+
+      routineId: parseInt(id)
     },
   });
 
@@ -65,6 +66,38 @@ async function getExcercisesByRountineID(req, res) {
 
 }
 
+async function upDateEnrollment(req, res) {
+
+  console.log(req.params)
+  console.log(req.body)
+
+  try {
+    const { id } = req.params; 
+    console.log(id)
+    const body = req.body;
+    console.log(body);
+
+    let weight = body.weight ? body.weight : -1;
+
+    const updatedData = await prisma.enrollment.update({
+      where: {
+        id: parseInt(id),
+      },
+      data: {
+        reps: parseInt(body.reps),
+        sets: parseInt(body.sets),
+        weight: parseInt(weight),
+      },
+    });
+  
+    res.json(updatedData);
+  } catch (error) {
+    return res.status(401).json({ message: `Updating enrollment failed` });
+  }
+
+}
 
 
-module.exports = { getEnrollments, createEnrollments, getExcercisesByRountineID }
+
+
+module.exports = { getEnrollments, createEnrollments, getExcercisesByRountineID, upDateEnrollment }

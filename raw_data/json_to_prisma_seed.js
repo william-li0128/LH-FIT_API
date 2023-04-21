@@ -1,7 +1,7 @@
 const { PrismaClient } = require('@prisma/client')
 const fs = require('fs')
 
-const exercisesJsonData = require('./exercises.json')
+const exercisesJsonData = require('./exercises_updated.json')
 const usersJsonData = require('./users.json')
 
 // function to create a seed script
